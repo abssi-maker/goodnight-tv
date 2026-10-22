@@ -8,7 +8,7 @@ export const SERVERS = ['ws://10.0.2.2:8790', 'ws://127.0.0.1:8790'];
 
 // Demo mode runs the step timers 10× faster (a 2-minute brush passes in 12 s) for filming.
 // Off for real bedtimes.
-export const DEMO = true; // DEMO BUILD for the video: set back to false after recording
+export const DEMO = false;
 export const TIME_SCALE = DEMO ? 10 : 1;
 
 // Testing: open the Light lab at launch (the candle and the light curve, with controls). Off for
