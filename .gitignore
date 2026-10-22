@@ -1,0 +1,34 @@
+# secrets and this household's data
+.env
+server/.env
+server/config.json
+server/memory.json
+server/evidence/
+server/cache/
+
+# dependencies and builds
+node_modules/
+app/build/
+app/generated/
+*.vpkg
+
+# working notes (not part of the project)
+CLAUDE.md
+HANDOFF.md
+PLAN.md
+REVIEW.md
+scorecard.md
+SPEC.md
+DESIGN.md
+archive/
+server/archive-ai/
+
+# media: raw sound sources (see design/sounds/CREDITS.md)
+design/*
+!design/simple/
+!design/sounds/
+design/sounds/*
+!design/sounds/CREDITS.md
+*.mov
+*.mp4
+.DS_Store

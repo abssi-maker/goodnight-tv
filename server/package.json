@@ -1,0 +1,15 @@
+{
+  "name": "goodnight-tv-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.1153.0",
+    "@aws-sdk/client-polly": "^3.700.0",
+    "ws": "^8.18.0"
+  }
+}

@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0d1029">
+<title>Goodnight TV</title>
+<style>
+  :root {
+    --bg: #0d1029; --bg2: #151a3d; --card: #1a2048; --card2: #222a5a; --line: #2c3570;
+    --ink: #f4ead8; --dim: #a7a9c9; --amber: #ffc978; --amber-ink: #2b1a08; --ok: #a8d8a0;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; min-height: 100vh; background: radial-gradient(120% 60% at 50% 0%, #1f2760 0%, var(--bg) 60%) fixed; color: var(--ink);
+         font: 16px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Rounded", system-ui, sans-serif; }
+  main { max-width: 460px; margin: 0 auto; padding: 22px 16px 60px; }
+  header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .logo { width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle at 65% 35%, #fff4d6 0 45%, transparent 46%), #2a3370; box-shadow: 0 0 24px #fff4d633; }
+  h1 { font-size: 19px; margin: 0; font-weight: 650; letter-spacing: .01em; }
+  #status { margin: 0; font-size: 14px; color: var(--dim); }
+  section { background: linear-gradient(180deg, var(--card), #171c42); border: 1px solid #ffffff0d; border-radius: 22px; padding: 18px; margin-bottom: 14px; }
+  h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--dim); margin: 0 0 12px; font-weight: 650; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; border-top: 1px solid #ffffff0f; }
+  .row:first-of-type { border-top: 0; }
+  .step { display: flex; align-items: center; gap: 12px; }
+  .icon { width: 40px; height: 40px; border-radius: 14px; display: grid; place-items: center; font-size: 21px; background: var(--card2); }
+  .step b { display: block; font-weight: 600; font-size: 16px; }
+  .step small { color: var(--dim); font-size: 13px; }
+  .switch { position: relative; width: 50px; height: 30px; flex: none; border-radius: 15px; border: 0; background: #3a427a; transition: background .2s; padding: 0; }
+  .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: transform .2s; }
+  .switch[aria-checked="true"] { background: var(--amber); }
+  .switch[aria-checked="true"]::after { transform: translateX(20px); }
+  .seg { display: flex; background: #11163a; border-radius: 14px; padding: 4px; gap: 4px; }
+  .seg button { flex: 1; font: inherit; font-size: 14px; color: var(--dim); background: transparent; border: 0; border-radius: 10px; padding: 9px 6px; }
+  .seg button[aria-pressed="true"] { background: var(--card2); color: var(--ink); font-weight: 600; box-shadow: 0 1px 0 #ffffff14 inset; }
+  label.lbl { display: block; font-size: 13px; color: var(--dim); margin: 14px 0 7px; }
+  input[type=text], input[type=number], input[type=time] { width: 100%; font: inherit; color: var(--ink); background: #11163a; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chips button { font: inherit; font-size: 14px; color: var(--ink); background: #11163a; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; }
+  .chips button[aria-pressed="true"] { background: var(--amber); color: var(--amber-ink); border-color: var(--amber); font-weight: 600; }
+  /* live */
+  .live-top { display: flex; align-items: baseline; justify-content: space-between; }
+  .big { font-size: 40px; font-weight: 650; color: var(--amber); font-variant-numeric: tabular-nums; line-height: 1; }
+  .muted { color: var(--dim); font-size: 13px; }
+  .progress { display: flex; gap: 8px; margin: 14px 0 4px; }
+  .progress span { flex: 1; text-align: center; font-size: 12px; color: var(--dim); }
+  .progress i { display: grid; place-items: center; height: 38px; border-radius: 12px; background: #11163a; font-style: normal; font-size: 18px; margin-bottom: 4px; }
+  .progress .done i { background: #3b3216; box-shadow: 0 0 0 1px #ffc97866 inset; }
+  .progress .now i { box-shadow: 0 0 0 2px var(--amber) inset; }
+  svg { width: 100%; height: 84px; display: block; margin-top: 10px; }
+  /* Bramble's sky */
+  .sky { display: flex; justify-content: space-between; margin-top: 4px; }
+  .sky div { text-align: center; font-size: 12px; color: var(--dim); }
+  .sky .star { display: block; font-size: 24px; color: #3a4280; margin-bottom: 2px; }
+  .sky .lit .star { color: var(--amber); text-shadow: 0 0 12px #ffc97888; }
+  /* bedside */
+  #bedside { background: #0b0806; border-color: #2a1d10; }
+  #bedside h2 { color: #8d7556; }
+  .summary { font-size: 14px; color: #b89a72; margin: 0 0 14px; }
+  .summary b { color: #d9c08f; font-weight: 600; }
+  .lines { font-family: Georgia, "Iowan Old Style", serif; font-size: 25px; line-height: 1.6; color: #d4ad78; }
+  .lines p { margin: 0 0 16px; }
+  .title { font-style: italic; color: #8d7556; font-size: 14px; margin-bottom: 12px; font-family: Georgia, serif; }
+  body.bedside { background: #050403; }
+  body.bedside section:not(#bedside) { opacity: .25; }
+  details summary { cursor: pointer; color: var(--dim); font-size: 13px; list-style: none; }
+  details summary::-webkit-details-marker { display: none; }
+  .note { color: var(--dim); font-size: 12.5px; margin: 14px 2px 0; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="logo" aria-hidden="true"></div>
+    <div><h1>Goodnight TV</h1><p id="status" aria-live="polite">Connecting…</p></div>
+  </header>
+
+  <section id="bedside" hidden aria-labelledby="bedside-h">
+    <h2 id="bedside-h">Read this at the bedside</h2>
+    <p class="summary" id="summary"></p>
+    <div class="title" id="storyTitle"></div>
+    <div class="lines" id="lines" aria-label="The last four lines of tonight's story"></div>
+  </section>
+
+  <section id="morning" hidden aria-labelledby="morning-h">
+    <h2 id="morning-h">Last night</h2>
+    <div class="live-top"><div><div class="big" id="window">–</div><div class="muted" id="morningNote"></div></div></div>
+    <div id="coach" hidden style="margin-top:14px;padding:12px 14px;border-radius:14px;background:#11163a">
+      <div class="muted" style="text-transform:uppercase;letter-spacing:.1em;font-size:11px;font-weight:700;margin-bottom:4px">One thing for tonight</div>
+      <div id="coachText" style="font-size:15px"></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="thread-h">
+    <h2 id="thread-h">On their mind tonight</h2>
+    <p class="note" style="margin:0 0 10px">One line, optional. Bramble's story will gently include it, as something the hero has too, and it's forgotten after tonight.</p>
+    <input id="thread" type="text" maxlength="120" placeholder="e.g. has a wobbly tooth" autocomplete="off">
+    <div class="chips" id="threadChips" style="margin-top:10px">
+      <button data-t="has a wobbly tooth">Wobbly tooth</button>
+      <button data-t="is nervous about the school trip tomorrow">School trip</button>
+      <button data-t="had a bad dream last night">Bad dream</button>
+      <button data-t="misses Grandma">Misses someone</button>
+      <button data-t="is excited about a birthday">Birthday soon</button>
+    </div>
+  </section>
+
+  <section aria-labelledby="plan-h">
+    <h2 id="plan-h">School night</h2>
+    <div class="live-top">
+      <div><div class="big" id="lightsOut">–</div><div class="muted">lights out</div></div>
+      <div style="text-align:right"><div style="font-size:22px;font-weight:650" id="startAt">–</div><div class="muted">start Goodnight TV</div></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <div style="flex:1"><label class="lbl" for="age" style="margin-top:0">Age</label><input id="age" type="number" min="2" max="12" inputmode="numeric"></div>
+      <div style="flex:1"><label class="lbl" for="wake" style="margin-top:0">School wake-up</label><input id="wake" type="time"></div>
+    </div>
+    <p class="note" id="planNote"></p>
+  </section>
+
+  <section id="live" hidden aria-labelledby="live-h">
+    <h2 id="live-h">Tonight, live</h2>
+    <div class="live-top">
+      <div><div class="big" id="light">–</div><div class="muted">screen light, vs. a bright kids' home screen</div></div>
+      <div class="muted" id="noiseInfo"></div>
+    </div>
+    <div class="progress" id="progress"></div>
+    <svg id="curve" viewBox="0 0 300 84" preserveAspectRatio="none" role="img" aria-label="Screen light over tonight's routine"></svg>
+  </section>
+
+  <section aria-labelledby="sky-h">
+    <h2 id="sky-h">Bramble's sky</h2>
+    <div class="sky" id="sky"></div>
+    <p class="muted" id="skyNote" style="margin:10px 0 0"></p>
+  </section>
+
+  <section aria-labelledby="routine-h">
+    <h2 id="routine-h">Tonight's routine</h2>
+    <div id="steps"></div>
+  </section>
+
+  <section aria-labelledby="sound-h">
+    <h2 id="sound-h">Sound and screen</h2>
+    <label class="lbl" id="noise-l" style="margin-top:0">Green noise under the story</label>
+    <div class="seg" role="group" aria-labelledby="noise-l" data-key="noise">
+      <button data-v="off">Off</button><button data-v="soft">Soft</button><button data-v="cozy">Cozy</button>
+    </div>
+    <label class="lbl" id="end-l">When the screen goes dark</label>
+    <div class="seg" role="group" aria-labelledby="end-l" data-key="end">
+      <button data-v="noise">Noise until the TV sleeps</button><button data-v="silence">Silence</button>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <div class="step"><div><b>Captions on the TV</b><small>Bramble's words, small, at the bottom</small></div></div>
+      <button class="switch" role="switch" id="captions" aria-label="Captions on the TV"></button>
+    </div>
+    <label class="lbl" for="name">Child's name</label>
+    <input id="name" type="text" autocomplete="off">
+    <p class="note">Goodnight TV makes no medical claims. It dims its own screen step by step, ends dark and quiet, and hands the last lines of the story to you. Fire TV then turns the display off on its own.</p>
+  </section>
+
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const STEPS = [
+  {id: 'teeth', icon: '🪥', name: 'Teeth', sub: 'In the bathroom; Bramble waits, the TV dims'},
+  {id: 'pajamas', icon: '👕', name: 'Pajamas', sub: 'Back on the sofa: "I\'m back!"'},
+  {id: 'potty', icon: '🧼', name: 'Potty and hands', sub: 'One trip away at a time'},
+  {id: 'light', icon: '💡', name: 'Big light off', sub: 'You switch off the lamp; the TV follows'},
+  {id: 'story', icon: '📖', name: 'Story', sub: 'Your child picks who, where, something cozy', fixed: true},
+];
+const PHASE_STEP = {teeth: 'teeth', pajamas: 'pajamas', potty: 'potty', light: 'light', pick: 'story', story: 'story', lantern: 'story'};
+let ws, config = {}, state = {}, nights = [], plan = null, friends = [], coach = null;
+
+function connect() {
+  ws = new WebSocket(`ws://${location.host}/parent`);
+  ws.onopen = () => render();
+  ws.onclose = () => { $('status').textContent = 'Reconnecting…'; setTimeout(connect, 1500); };
+  ws.onmessage = e => {
+    const m = JSON.parse(e.data);
+    if (m.type === 'state') { state = m.state; config = m.config; nights = m.nights || []; plan = m.plan; friends = m.friends || []; coach = m.coach || null; render(); }
+  };
+}
+const send = m => ws?.readyState === 1 && ws.send(JSON.stringify(m));
+const setCfg = patch => { config = {...config, ...patch}; render(); send({type: 'config', config: patch}); };
+
+// routine builder
+$('steps').innerHTML = STEPS.map(s => `
+  <div class="row"><div class="step"><div class="icon" aria-hidden="true">${s.icon}</div><div><b>${s.name}</b><small>${s.sub}</small></div></div>
+  ${s.fixed ? '' : `<button class="switch" role="switch" data-step="${s.id}" aria-label="${s.name}"></button>`}</div>`).join('');
+document.querySelectorAll('[data-step]').forEach(b => b.addEventListener('click', () =>
+  setCfg({steps: {...config.steps, [b.dataset.step]: !config.steps?.[b.dataset.step]}})));
+$('captions').addEventListener('click', () => setCfg({captions: !config.captions}));
+document.querySelectorAll('[data-key]').forEach(g => g.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (b) setCfg({[g.dataset.key]: b.dataset.v});
+}));
+$('name').addEventListener('change', e => setCfg({childName: e.target.value.trim() || 'Leo'}));
+$('age').addEventListener('change', e => setCfg({age: Number(e.target.value) || 5}));
+$('thread').addEventListener('change', e => setCfg({thread: e.target.value.trim()}));
+$('threadChips').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { $('thread').value = b.dataset.t; setCfg({thread: b.dataset.t}); } });
+$('wake').addEventListener('change', e => setCfg({wake: e.target.value || '07:00'}));
+
+const fmt = ms => new Date(ms).toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'});
+const pct = v => v == null ? '–' : (v >= 10 ? Math.round(v) : v.toFixed(1)) + '%';
+
+function render() {
+  document.querySelectorAll('[data-step]').forEach(b => b.setAttribute('aria-checked', String(!!config.steps?.[b.dataset.step])));
+  $('captions').setAttribute('aria-checked', String(!!config.captions));
+  document.querySelectorAll('[data-key]').forEach(g => g.querySelectorAll('button').forEach(b =>
+    b.setAttribute('aria-pressed', String(config[g.dataset.key] === b.dataset.v))));
+  if (document.activeElement !== $('name')) $('name').value = config.childName || '';
+  if (document.activeElement !== $('age')) $('age').value = config.age || 5;
+  if (document.activeElement !== $('thread')) $('thread').value = config.thread || '';
+  $('coach').hidden = !coach;
+  if (coach) $('coachText').textContent = coach.text;
+  if (document.activeElement !== $('wake')) $('wake').value = config.wake || '07:00';
+  if (plan) {
+    $('lightsOut').textContent = plan.lightsOut;
+    $('startAt').textContent = plan.start;
+    $('planNote').textContent = `${config.childName || 'Your child'} needs about ${plan.hours} hours on a school night (paediatric guidance: ${plan.range} h at this age). Lights out by ${plan.lightsOut} for a ${plan.wake} wake-up.`;
+  }
+  drawMorning();
+
+  const p = state.phase || 'idle';
+  const running = p !== 'idle' && p !== 'dark' && state.startedAt && !state.endedAt;
+  $('status').textContent = running ? 'Bedtime is on' : p === 'dark' ? `Dark since ${fmt(state.endedAt)}` : `Ready for ${config.childName || 'bedtime'}`;
+  $('live').hidden = !state.startedAt;
+  $('light').textContent = pct(state.lightPct);
+  $('noiseInfo').textContent = state.noise && state.noise.gain > 0 ? '🍃 Green noise on' : '';
+  const steps = STEPS.filter(s => s.fixed || config.steps?.[s.id]);
+  const nowStep = PHASE_STEP[p];
+  $('progress').innerHTML = steps.map(s => {
+    const cls = state.checks?.[s.id] ? 'done' : s.id === nowStep && running ? 'now' : '';
+    return `<span class="${cls}"><i>${state.checks?.[s.id] ? '✓' : s.icon}</i>${s.name.split(' ')[0]}</span>`;
+  }).join('');
+  drawCurve(state.light || []);
+  drawSky();
+  if (state.endedAt && state.story?.finalLines) showLines(state.story.title, state.story.finalLines);
+}
+
+function drawCurve(pts) {
+  const svg = $('curve');
+  if (!pts.length) { svg.innerHTML = ''; return; }
+  const maxX = Math.max(60, pts[pts.length - 1][0]);
+  const y = v => 80 - 74 * Math.min(1, v / 100);
+  const line = pts.map(([x, v], i) => `${i ? 'L' : 'M'}${(x / maxX * 300).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  svg.innerHTML = `<defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ffc978" stop-opacity=".35"/><stop offset="1" stop-color="#ffc978" stop-opacity="0"/></linearGradient></defs>` +
+    `<line x1="0" y1="${y(100)}" x2="300" y2="${y(100)}" stroke="#2c3570" stroke-dasharray="3 4"/>` +
+    `<path d="${line} L${(pts[pts.length - 1][0] / maxX * 300).toFixed(1)},84 L0,84 Z" fill="url(#g)"/>` +
+    `<path d="${line}" fill="none" stroke="#ffc978" stroke-width="2.5" vector-effect="non-scaling-stroke"/>`;
+}
+
+function drawSky() {
+  const days = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - 6 + i); return d; });
+  const lit = new Set(nights.map(n => n.date));
+  const iso = d => d.toISOString().slice(0, 10);
+  $('sky').innerHTML = days.map(d => `<div class="${lit.has(iso(d)) ? 'lit' : ''}"><span class="star">★</span>${d.toLocaleDateString([], {weekday: 'narrow'})}</div>`).join('');
+  const count = days.filter(d => lit.has(iso(d))).length;
+  const fr = friends.length ? ` Living on Bramble's hill: ${friends.map(f => f.emoji + ' ' + f.short).join(', ')}.` : '';
+  $('skyNote').textContent = (count ? `${count} calm bedtime${count > 1 ? 's' : ''} this week.` : 'Each finished bedtime adds a star to Bramble\'s sky.') + fr;
+}
+
+function drawMorning() {
+  const last = nights[nights.length - 1];
+  const hrs = new Date().getHours();
+  if (!last || state.startedAt && !state.endedAt || hrs >= 12) { $('morning').hidden = true; return; }
+  const [h, m] = (config.wake || '07:00').split(':').map(Number);
+  const d = new Date(last.darkAt), w = new Date(d); w.setHours(h, m, 0, 0); if (w <= d) w.setDate(w.getDate() + 1);
+  const mins = Math.round((w - d) / 60000);
+  $('morning').hidden = false;
+  $('window').textContent = `${Math.floor(mins / 60)} h ${String(mins % 60).padStart(2, '0')}`;
+  $('morningNote').textContent = `from dark (${fmt(last.darkAt)}) to the school alarm. "${last.title}".`;
+}
+
+function showLines(title, lines) {
+  if (!lines || !lines.length) return;
+  $('bedside').hidden = false;
+  document.body.classList.add('bedside');
+  const c = state.checks || {};
+  const parts = STEPS.filter(s => c[s.id]).map(s => `<b>${s.name.split(' ')[0]} ✓</b>`);
+  $('summary').innerHTML = `${parts.join(' · ')}${state.endedAt ? ` · Dark at ${fmt(state.endedAt)}` : ''}`;
+  $('storyTitle').textContent = title ? `“${title}”: the ending` : '';
+  $('lines').innerHTML = lines.map(l => `<p>${l.replace(/[<>&]/g, ch => ({'<': '&lt;', '>': '&gt;', '&': '&amp;'}[ch]))}</p>`).join('');
+}
+
+connect();
+</script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+Fredoka and Nunito are licensed under the SIL Open Font License 1.1 (https://openfontlicense.org).
+Fredoka: Copyright 2016 The Fredoka Project Authors. Nunito: Copyright 2014 The Nunito Project Authors.
+Static instances downloaded from Google Fonts (Fredoka 600, Nunito 800).
